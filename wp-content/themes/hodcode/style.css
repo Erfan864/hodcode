@@ -10,6 +10,9 @@
     Tags: custom, responsive, blog
     Text Domain: my-custom-theme
     */
+
+@import "tailwindcss";
+
 @font-face {
   font-family: "Vazir";
   src: url("./assets/fonts/Vazir/Vazir-Medium-FD-WOL.ttf") format("truetype");
@@ -18,9 +21,9 @@
 }
 
 body {
-    background-color: #eaeaea;
+  background-color: #eaeaea;
 }
 
-.font-vazir{
-    font-family: "Vazir";
+.font-vazir {
+  font-family: "Vazir";
 }

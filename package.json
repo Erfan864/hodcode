@@ -1,0 +1,26 @@
+{
+  "name": "wordpress",
+  "version": "1.0.0",
+  "description": "![hodcode theme top](pic-1.png)\r ![hodcode theme bottom](pic-2.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Erfan864/hodcode.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Erfan864/hodcode/issues"
+  },
+  "homepage": "https://github.com/Erfan864/hodcode#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.12"
+  }
+}

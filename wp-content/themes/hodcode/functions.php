@@ -15,7 +15,6 @@ function hodcode_enqueue_styles()
   wp_enqueue_script(
     'tailwind', // Handle name
     "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4", // This gets style.css in the root of the theme
-
   );
 }
 add_action('wp_enqueue_scripts', 'hodcode_enqueue_styles');
