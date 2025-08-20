@@ -7,7 +7,6 @@
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <?php wp_head(); ?>
 </head>
-
 <body <?php body_class(); ?>>
     <header class="bg-white border-b border-gray-300 p-5">
         <div class="max-w-screen-lg mx-auto flex items-center justify-between">
@@ -37,9 +36,7 @@
                     "container" => false,
                 ])
                 ?>
-                <span class="material-symbols-outlined">
-                    shopping_cart
-                </span>
+                <i class="ri-shopping-cart-2-line text-2xl"></i>
             </div>
         </div>
     </header>

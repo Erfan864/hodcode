@@ -1,2 +1,2 @@
-![hodcode theme top](pic-1.png)
-![hodcode theme bottom](pic-2.png)
+![hodcode theme](pic-5.png)
+![hodcode single product](pic-6.png)

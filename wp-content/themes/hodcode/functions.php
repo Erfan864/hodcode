@@ -2,8 +2,8 @@
 function hodcode_enqueue_styles()
 {
   wp_enqueue_style(
-    'hodcode-style', // Handle name
-    get_stylesheet_uri(), // This gets style.css in the root of the theme
+    'hodcode-style',
+    get_stylesheet_uri(),
   );
   wp_enqueue_style('mytheme-fonts', get_template_directory_uri() . '/style.css', array(), null);
   wp_enqueue_style(
@@ -12,9 +12,18 @@ function hodcode_enqueue_styles()
     array(),
     null
   );
+  wp_enqueue_style(
+    'remixicon',
+    'https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css',
+    array(),
+    '4.2.0'
+  );
   wp_enqueue_script(
-    'tailwind', // Handle name
-    "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4", // This gets style.css in the root of the theme
+    'tailwind',
+    get_template_directory_uri() . '/assets/script/tailwind.js',
+    array(),
+    '1.0.0',
+    true
   );
 }
 add_action('wp_enqueue_scripts', 'hodcode_enqueue_styles');
@@ -25,7 +34,6 @@ add_action(
     register_nav_menus([
       "header-right" => "Header menu right",
       "header-left" => "Header menu left",
-      // "footer" => "Footer menu",
     ]);
   }
 );
@@ -45,25 +53,6 @@ add_action('after_setup_theme', function () {
   add_theme_support('title-tag');
 });
 
-/* function create_product_post_type()
-{
-  $labels = array(
-    'name'                  => 'محصولات',
-    'singular_name'         => 'محصول',
-    'menu_name'             => 'محصولات',
-    'add_new_item'          => 'افزودن محصول جدید',
-    'edit_item'             => 'ویرایش محصول',
-  );
-  $args = array(
-    'labels'                => $labels,
-    'public'                => true,
-    'has_archive'           => true,
-    'rewrite'               => array('slug' => 'products'),
-    'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'),
-  );
-  register_post_type('product', $args);
-}
-add_action('init', 'create_product_post_type'); */
 add_action('init', function () {
   register_post_type('product', [
     'labels'                => [
@@ -108,12 +97,10 @@ function hodcode_add_custom_field($fieldName, $postType, $title)
   });
 
   add_action('save_post', function ($post_id) use ($fieldName) {
-    // checks
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!isset($_POST[$fieldName . '_nonce_field'])) return;
     if (!wp_verify_nonce($_POST[$fieldName . '_nonce_field'], $fieldName . '_nonce')) return;
     if (!current_user_can('edit_post', $post_id)) return;
-    // save
     if (isset($_POST[$fieldName])) {
       $san = sanitize_text_field(wp_unslash($_POST[$fieldName]));
       update_post_meta($post_id, $fieldName, $san);
@@ -126,8 +113,37 @@ function hodcode_add_custom_field($fieldName, $postType, $title)
 hodcode_add_custom_field('price', 'product', 'قیمت');
 hodcode_add_custom_field('final_price', 'product', 'قیمت نهایی');
 
+global $custom_detailes_fields;
+$custom_detailes_fields = [
+  'sensor_type'                => 'نوع حسگر',
+  'sensor_disconnection'       => 'قطع حسگر',
+  'ear_placement'              => 'نوع گوشی',
+  'connection_type'            => 'نوع اتصال',
+  'headphone_type'             => 'نوع هدفون، هدست و هندزفری',
+  'noise_canceling_capability' => 'قابلیت نویز کنسلینگ',
+  'performance_range'          => 'محدوده عملکرد',
+  'frequency_response'          => 'پاسخ فرکانسی',
+  'accompanying_items'          => 'اقلام همراه',
+  'suitable_for'          => 'مناسب برای',
+];
+
+add_action('init', function () use ($custom_detailes_fields) {
+  $post_type = 'product';
+  foreach ($custom_detailes_fields as $field_name => $field_label) {
+    hodcode_add_custom_field($field_name, $post_type, $field_label);
+  }
+}, 20);
+
 add_action('pre_get_posts', function ($query) {
   if ($query->is_home() && $query->is_main_query() && !is_admin()) {
     $query->set('post_type', 'product');
   }
 });
+
+function convert_to_persian_number($number)
+{
+  $persian_digits = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
+  $english_digits = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+  $number = str_replace($english_digits, $persian_digits, $number);
+  return $number;
+}
